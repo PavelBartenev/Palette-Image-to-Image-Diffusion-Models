@@ -4,6 +4,7 @@ from PIL import Image
 import os
 import torch
 import numpy as np
+import re
 
 from .util.mask import (bbox2mask, brush_stroke_mask, get_irregular_mask, random_bbox, random_cropping_bbox)
 
@@ -29,12 +30,23 @@ def make_dataset(dir):
 
     return images
 
+def get_masks(dir):
+    for root, _, fnames in sorted(os.walk(dir)):
+        for fname in sorted(fnames):
+            if fname.endswith('.pt'):
+                return torch.load(os.path.join(root, fname))
+    return None
+    
 def pil_loader(path):
     return Image.open(path).convert('RGB')
 
 class InpaintDataset(data.Dataset):
     def __init__(self, data_root, mask_config={}, data_len=-1, image_size=[256, 256], loader=pil_loader):
         imgs = make_dataset(data_root)
+
+        if mask_config['mask_mode'] == 'file':
+            imgs = sorted(imgs, key = lambda path: int(path[re.search(r"\d+", path).start() : re.search(r"\d+", path).end()]))
+                 
         if data_len > 0:
             self.imgs = imgs[:int(data_len)]
         else:
@@ -49,11 +61,16 @@ class InpaintDataset(data.Dataset):
         self.mask_mode = self.mask_config['mask_mode']
         self.image_size = image_size
 
+        if self.mask_mode == 'file':
+            #self.masks = get_masks(data_root).astype(np.uint8)
+            self.masks = torch.load('best_slices_labels.pt').astype(np.uint8)
+            self.mask_tfs = transforms.Resize((image_size[0], image_size[1]))
+            
     def __getitem__(self, index):
         ret = {}
         path = self.imgs[index]
         img = self.tfs(self.loader(path))
-        mask = self.get_mask()
+        mask = self.get_mask(index)
         cond_image = img*(1. - mask) + mask*torch.randn_like(img)
         mask_img = img*(1. - mask) + mask
 
@@ -67,7 +84,7 @@ class InpaintDataset(data.Dataset):
     def __len__(self):
         return len(self.imgs)
 
-    def get_mask(self):
+    def get_mask(self, idx=None):
         if self.mask_mode == 'bbox':
             mask = bbox2mask(self.image_size, random_bbox())
         elif self.mask_mode == 'center':
@@ -82,7 +99,10 @@ class InpaintDataset(data.Dataset):
             irregular_mask = brush_stroke_mask(self.image_size, )
             mask = regular_mask | irregular_mask
         elif self.mask_mode == 'file':
-            pass
+            mask = self.masks[idx]
+            mask = mask[np.newaxis, :, :]  
+            mask = self.mask_tfs(torch.from_numpy(mask)).numpy() 
+            mask = np.transpose(mask, (1, 2, 0))
         else:
             raise NotImplementedError(
                 f'Mask mode {self.mask_mode} has not been implemented.')

@@ -147,6 +147,16 @@ def parse(args):
             shutil.copytree(name, os.path.join(opt['path']['code'], name), ignore=shutil.ignore_patterns("*.pyc", "__pycache__"))
         if '.py' in name or '.sh' in name:
             shutil.copy(name, opt['path']['code'])
+
+    ##### MyChanges###################
+    opt['datasets']['train']['which_dataset']['args']['data_root'] = "mri-slices-no-labels"
+    opt['datasets']['train']['which_dataset']['args']['mask_config']['mask_mode'] = 'file'
+    opt['train']['val_epoch'] = 10
+    opt['train']['save_checkpoint_epoch'] = 10
+    # opt['model']['which_networks'][0]['args']['unet']['in_channel'] = 2
+    # opt['model']['which_networks'][0]['args']['unet']['out_channel'] = 1
+    # opt['model']['which_networks'][0]['args']['unet']['image_size'] = (50, 300)
+    ##################################
     return dict_to_nonedict(opt)
 
 

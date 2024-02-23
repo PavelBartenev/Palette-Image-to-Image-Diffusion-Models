@@ -119,6 +119,15 @@ class BaseModel():
         self.logger.info('Loading pretrained model from [{:s}] ...'.format(model_path))
         if isinstance(network, nn.DataParallel) or isinstance(network, nn.parallel.DistributedDataParallel):
             network = network.module
+
+        # #########################################
+        # current_model = network.state_dict()
+        # keys_vin = torch.load(model_path, map_location = lambda storage, loc: Util.set_device(storage))
+        # new_state_dict={k:v if v.size()==current_model[k].size()  else  current_model[k] for k,v in zip(current_model.keys(),   keys_vin.values())}
+        
+        # network.load_state_dict(new_state_dict, strict=strict)
+        # ###############################################
+
         network.load_state_dict(torch.load(model_path, map_location = lambda storage, loc: Util.set_device(storage)), strict=strict)
 
     def save_training_state(self):
