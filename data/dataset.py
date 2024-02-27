@@ -86,7 +86,7 @@ class InpaintDataset(data.Dataset):
 
     def get_mask(self, idx=None):
         if self.mask_mode == 'bbox':
-            mask = bbox2mask(self.image_size, random_bbox())
+            mask = bbox2mask(self.image_size, random_bbox(max_bbox_shape=(20, 20), max_bbox_delta=10, min_margin=64))
         elif self.mask_mode == 'center':
             h, w = self.image_size
             mask = bbox2mask(self.image_size, (h//4, w//4, h//2, w//2))

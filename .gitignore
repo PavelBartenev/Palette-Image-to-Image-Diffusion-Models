@@ -139,4 +139,4 @@ dmypy.json
 *.jpeg
 *.jpg
 *.zip
-config/celebahq-resized-256x256.zip
+best_slices_labels.pt
