@@ -149,20 +149,30 @@ def parse(args):
             shutil.copy(name, opt['path']['code'])
 
     ##### MyChanges###################
-    opt['datasets']['train']['which_dataset']['args']['data_root'] = "mri-slices-no-labels"
+    opt['datasets']['train']['which_dataset']['args']['data_root'] = "mri-slices-ext"
     opt['datasets']['train']['which_dataset']['args']['mask_config']['mask_mode'] = 'file'
-    opt['train']['val_epoch'] = 100
-    opt['train']['save_checkpoint_epoch'] = 100
-    opt['gpu_ids'] = [1]
-    opt['path']['resume_state'] = 'experiments/train_inpainting_celebahq_240226_142519/checkpoint/400'
-    opt['datasets']['test']['which_dataset']['args']['data_root'] = "mri-slices-no-labels"
-    opt['datasets']['test']['which_dataset']['args']['mask_config']['mask_mode'] = 'file'
+    opt['train']['val_epoch'] = 20
+    opt['train']['save_checkpoint_epoch'] = 20
+    opt['gpu_ids'] = [2]
+    opt['path']['resume_state'] = 'experiments/train_inpainting_celebahq_240304_171920/checkpoint/540'
+    opt['datasets']['test']['which_dataset']['args']['data_root'] = "mri-slices-ext"
+    opt['datasets']['test']['which_dataset']['args']['mask_config']['mask_mode'] = 'bbox'
     opt['name'] = 'inpainting-mri-real-masks'
+    
     # opt['model']['which_networks'][0]['args']['unet']['in_channel'] = 2
     # opt['model']['which_networks'][0]['args']['unet']['out_channel'] = 1
     # opt['model']['which_networks'][0]['args']['unet']['image_size'] = (50, 300)
     ##################################
     return dict_to_nonedict(opt)
+
+
+
+
+
+
+
+
+
 
 
 

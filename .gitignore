@@ -139,4 +139,5 @@ dmypy.json
 *.jpeg
 *.jpg
 *.zip
+*.pt
 best_slices_labels.pt
