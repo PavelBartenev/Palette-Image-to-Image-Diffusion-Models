@@ -63,7 +63,7 @@ class InpaintDataset(data.Dataset):
 
         if self.mask_mode == 'file':
             #self.masks = get_masks(data_root).astype(np.uint8)
-            self.masks = torch.load('best_slices_labels_ext.pt').astype(np.uint8)
+            self.masks = torch.load(self.mask_config["mask_file"]).astype(np.uint8)
             self.mask_tfs = transforms.Resize((image_size[0], image_size[1]))
             
     def __getitem__(self, index):

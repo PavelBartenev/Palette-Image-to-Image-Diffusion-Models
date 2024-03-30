@@ -141,3 +141,5 @@ dmypy.json
 *.zip
 *.pt
 best_slices_labels.pt
+mri_data/
+experiments/

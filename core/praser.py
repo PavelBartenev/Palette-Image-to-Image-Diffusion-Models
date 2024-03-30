@@ -7,12 +7,13 @@ from functools import partial
 import importlib
 from types  import FunctionType
 import shutil
+
 def init_obj(opt, logger, *args, default_file_name='default file', given_module=None, init_type='Network', **modify_kwargs):
     """
     finds a function handle with the name given as 'name' in config,
     and returns the instance initialized with corresponding args.
     """ 
-    if opt is None or len(opt)<1:
+    if opt is None or len(opt) < 1:
         logger.info('Option is None when initialize {}'.format(init_type))
         return None
     
@@ -149,15 +150,17 @@ def parse(args):
             shutil.copy(name, opt['path']['code'])
 
     ##### MyChanges###################
-    opt['datasets']['train']['which_dataset']['args']['data_root'] = "mri-slices-ext"
-    opt['datasets']['train']['which_dataset']['args']['mask_config']['mask_mode'] = 'file'
-    opt['train']['val_epoch'] = 20
-    opt['train']['save_checkpoint_epoch'] = 20
-    opt['gpu_ids'] = [2]
-    opt['path']['resume_state'] = 'experiments/train_inpainting_celebahq_240304_171920/checkpoint/540'
-    opt['datasets']['test']['which_dataset']['args']['data_root'] = "mri-slices-ext"
-    opt['datasets']['test']['which_dataset']['args']['mask_config']['mask_mode'] = 'bbox'
-    opt['name'] = 'inpainting-mri-real-masks'
+    # opt['datasets']['train']['which_dataset']['args']['data_root'] = "mri-slices-ext"
+    # opt['datasets']['train']['which_dataset']['args']['mask_config']['mask_mode'] = 'file'
+    
+    # opt['train']['val_epoch'] = 20
+    # opt['train']['save_checkpoint_epoch'] = 20
+    
+    # opt['gpu_ids'] = [2]
+    # opt['path']['resume_state'] = 'experiments/train_inpainting_celebahq_240304_171920/checkpoint/540'
+    # opt['datasets']['test']['which_dataset']['args']['data_root'] = "mri-slices-ext"
+    # opt['datasets']['test']['which_dataset']['args']['mask_config']['mask_mode'] = 'bbox'
+    # opt['name'] = 'inpainting-mri-real-masks'
     
     # opt['model']['which_networks'][0]['args']['unet']['in_channel'] = 2
     # opt['model']['which_networks'][0]['args']['unet']['out_channel'] = 1

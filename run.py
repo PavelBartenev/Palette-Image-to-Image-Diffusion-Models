@@ -60,8 +60,8 @@ def main_worker(gpu, ngpus_per_node, opt):
             model.test()
     finally:
         phase_writer.close()
-        
-        
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', type=str, default='config/colorization_mirflickr25k.json', help='JSON file for configuration')

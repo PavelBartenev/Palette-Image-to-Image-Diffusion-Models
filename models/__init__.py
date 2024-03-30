@@ -20,7 +20,6 @@ def define_network(logger, opt, network_opt):
         net.init_weights()
     return net
 
-
 def define_loss(logger, loss_opt):
     return init_obj(loss_opt, logger, default_file_name='models.loss', init_type='Loss')
 

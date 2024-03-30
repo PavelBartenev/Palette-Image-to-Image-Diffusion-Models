@@ -7,3 +7,5 @@ tensorboardX>=1.14
 scipy 
 opencv-python
 clean-fid
+jstyleson
+Pillow==9.5.0

@@ -10,7 +10,7 @@
         "tb_logger": "tb_logger", // path of tensorboard logger
         "results": "results",
         "checkpoint": "checkpoint",
-        "resume_state": "200" 
+        "resume_state": "200", 
         // "resume_state": null // ex: 100, loading .state  and .pth from given epoch and iteration
     },
 
@@ -22,7 +22,8 @@
                     "data_root": "datasets/celebahq/flist/train.flist",
                     "data_len": -1,
                     "mask_config": {
-                        "mask_mode": "hybrid"
+                        "mask_mode": "hybrid",
+                        "mask_file": "best_slices_labels_ext.pt",
                     }
                 } 
             },
@@ -33,7 +34,7 @@
                     "num_workers": 4,
                     "shuffle": true,
                     "pin_memory": true,
-                    "drop_last": true
+                    "drop_last": true,
                 },
                 "val_args":{ // arguments to initialize valid_dataloader, will overwrite the parameters in train_dataloader
                     "batch_size": 1, // batch size in each gpu
