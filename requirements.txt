@@ -9,3 +9,4 @@ opencv-python
 clean-fid
 jstyleson
 Pillow==9.5.0
+tensorboard

@@ -57,6 +57,7 @@ class VisualWriter():
         self.result_dir = opt['path']['results']
         enabled = opt['train']['tensorboard']
         self.rank = opt['global_rank']
+        self.upload_tb_logs = False
 
         self.writer = None
         self.selected_module = ""
@@ -133,6 +134,10 @@ class VisualWriter():
                     if name not in self.tag_mode_exceptions:
                         tag = '{}/{}'.format(self.phase, tag)
                     add_data(tag, data, self.iter, *args, **kwargs)
+                    
+                    if self.upload_tb_logs:
+                        upload_tensorboard_logs()  
+                        
             return wrapper
         else:
             # default action for returning methods defined in this class, set_step() for instance.
@@ -142,7 +147,9 @@ class VisualWriter():
                 raise AttributeError("type object '{}' has no attribute '{}'".format(self.selected_module, name))
             return attr
 
-
+    def upload_tensorboard_logs():
+        pass
+        
 class LogTracker:
     """
     record training numerical indicators.

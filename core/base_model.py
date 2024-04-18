@@ -50,6 +50,7 @@ class BaseModel():
             ''' print logged informations to the screen and tensorboard ''' 
             for key, value in train_log.items():
                 self.logger.info('{:5s}: {}\t'.format(str(key), value))
+                
             
             if self.epoch % self.opt['train']['save_checkpoint_epoch'] == 0:
                 self.logger.info('Saving the self at the end of epoch {:.0f}'.format(self.epoch))
@@ -108,7 +109,7 @@ class BaseModel():
     def load_network(self, network, network_label, strict=True):
         if self.opt['path']['resume_state'] is None:
             return 
-        self.logger.info('Beign loading pretrained model [{:s}] ...'.format(network_label))
+        self.logger.info('Begin loading pretrained model [{:s}] ...'.format(network_label))
 
         model_path = "{}_{}.pth".format(self. opt['path']['resume_state'], network_label)
         
@@ -148,7 +149,7 @@ class BaseModel():
         """ resume the optimizers and schedulers for training, only work when phase is test or resume training enable """
         if self.phase!='train' or self. opt['path']['resume_state'] is None:
             return
-        self.logger.info('Beign loading training states'.format())
+        self.logger.info('Begin loading training states'.format())
         assert isinstance(self.optimizers, list) and isinstance(self.schedulers, list), 'optimizers and schedulers must be a list.'
         
         state_path = "{}.state".format(self. opt['path']['resume_state'])

@@ -1,5 +1,6 @@
 import argparse
 import os
+import subprocess
 import warnings
 import torch
 import torch.multiprocessing as mp
@@ -30,8 +31,10 @@ def main_worker(gpu, ngpus_per_node, opt):
 
     ''' set logger '''
     phase_logger = InfoLogger(opt)
-    phase_writer = VisualWriter(opt, phase_logger)  
+    phase_writer = VisualWriter(opt, phase_logger)
     phase_logger.info('Create the log file in directory {}.\n'.format(opt['path']['experiments_root']))
+
+    #subprocess.Popen(["tensorboard", "--logdir", f"{opt['path']['experiments_root']}/tb_logger", "--port", "6006", "--host", "0.0.0.0"])
 
     '''set networks and dataset'''
     phase_loader, val_loader = define_dataloader(phase_logger, opt) # val_loader is None if phase is test.
