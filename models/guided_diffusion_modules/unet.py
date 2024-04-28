@@ -341,7 +341,7 @@ class UNet(nn.Module):
     :param use_new_attention_order: use a different attention pattern for potentially
                                     increased efficiency.
     """
-
+    
     def __init__(
         self,
         image_size,
